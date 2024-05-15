@@ -1,0 +1,49 @@
+version: '3.4'
+
+services:
+  moto.api:
+    image: ${DOCKER_REGISTRY-}motoapi
+    container_name: moto.api
+    build:
+      context: .
+      dockerfile: Moto.Api/Dockerfile
+
+  moto.database:
+    image: postgres:latest
+    container_name: moto.database
+    environment:
+     - POSTGRES_DB=moto
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=postgres 
+    volumes:
+     - ./.containers/moto-db:/var/lib/postgresql/data
+    ports:
+     - 5432:5432
+ 
+  moto.rabbitmq:
+    image: 'rabbitmq:3.6-management-alpine'
+    container_name: moto.rabbitmq
+    hostname: moto-mq
+    volumes:
+        - ./.containers/moto-queue/data/:/var/lib/rabbitmq
+        - ./.containers/moto-queue/log/:/var/lib/rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    networks:
+      - network
+ 
+  moto.seq:
+    image: datalust/seq:latest
+    container_name: moto.seq
+    environment:
+    - ACCEPT_EULA=Y
+    ports:
+    - 5341:5341
+    - 8081:80 
+networks:
+  network: {}

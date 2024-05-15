@@ -1,0 +1,25 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Moto.Api/bin
+/Moto.Api/obj
+/Moto.Application/bin
+/Moto.Application/obj
+/Moto.Domain/bin
+/Moto.Domain/obj
+/Moto.Infrastructure/bin
+/Moto.Infrastructure/obj
+/Moto.Application.IntegrationTests/bin/Debug/net8.0
+/Moto.Application.IntegrationTests/obj
+/Moto.Application.Tests.UnitTests/bin/Debug/net8.0
+/Moto.Application.Tests.UnitTests/obj
+/obj/Docker
+/.containers/moto-db
+/bin/Debug
+/bin/Debug/appsettings.Development.json
+/obj/Debug
+/.containers/moto-queue/data
+/Moto.Domain.UnitTests/bin/Debug/net8.0
+/Moto.Domain.UnitTests/obj
