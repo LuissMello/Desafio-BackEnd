@@ -64,5 +64,12 @@ Seu objetivo é criar uma aplicação para gerenciar aluguel de motos e entregad
 - Código limpo e organizado
 - Logs bem estruturados
 - Seguir convenções utilizadas pela comunidade
+
+# Tecnologias Utilizadas
+- .Net8
+- Docker
+- Logging -> Serilog + Seq
+- Mensageria -> RabbitMq + MassTransport
+-  Banco -> PostgreSQL + Entity Framework Core
   
 
