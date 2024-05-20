@@ -1,4 +1,6 @@
-﻿using Moto.Application.Abstractions;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using Moto.Application.Abstractions;
 using Moto.Domain.Abstractions;
 using Moto.Domain.Dtos.Request;
 using Moto.Domain.Dtos.Response;
@@ -6,6 +8,7 @@ using Moto.Domain.Entities;
 using Moto.Domain.Exceptions;
 using Moto.Infrastructure.Base;
 using Moto.Infrastructure.Repositories;
+using System;
 
 namespace Moto.Application.Services
 {
@@ -13,11 +16,13 @@ namespace Moto.Application.Services
     {
         private readonly IUnitOfWork _uow;
         private readonly IPlanRepository _planRepository;
+        private readonly IValidator<PlanEntity> _validator;
 
-        public PlanServices(IPlanRepository planRepository, IUnitOfWork uow)
+        public PlanServices(IPlanRepository planRepository, IUnitOfWork uow, IValidator<PlanEntity> validator)
         {
             _planRepository = planRepository;
             _uow = uow;
+            _validator = validator;
         }
 
         public async Task<PlanEntity> CreateAsync(CreatePlanRequest request)
@@ -29,6 +34,11 @@ namespace Moto.Application.Services
 
             PlanEntity newPlan = new(request.Days, request.Price, request.Fee);
 
+            ValidationResult result = await _validator.ValidateAsync(newPlan);
+
+            if (!result.IsValid)
+                throw new ValidationException(result.Errors);
+            
             await _planRepository.AddAsync(newPlan);
             await _uow.Commit();
 
@@ -58,6 +68,11 @@ namespace Moto.Application.Services
                 throw new PlanAlreadyRegisteredException("Esse plano já existe");
 
             plan.Update(request.Days, request.Price, request.Fee);
+
+            ValidationResult result = await _validator.ValidateAsync(plan);
+
+            if (!result.IsValid)
+                throw new ValidationException(result.Errors);
 
             await _uow.Commit();
 

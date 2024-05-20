@@ -1,7 +1,9 @@
 ﻿using Asp.Versioning;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Moto.Api.Extensions;
 using Moto.Application.Abstractions;
 using Moto.Application.Services;
 using Moto.Domain.Dtos.Request;
@@ -47,6 +49,12 @@ namespace Moto.Api.Controllers
             {
                 return Conflict(ex.Message);
             }
+            catch (ValidationException ex)
+            {
+                ex.AddToModelState(ModelState);
+
+                return BadRequest(ModelState);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
@@ -82,6 +90,12 @@ namespace Moto.Api.Controllers
             catch (PlanAlreadyRegisteredException ex)
             {
                 return Conflict(ex.Message);
+            }
+            catch (ValidationException ex)
+            {
+                ex.AddToModelState(ModelState);
+
+                return BadRequest(ModelState);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,6 @@
-﻿using MassTransit;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using MassTransit;
 using MassTransit.Internals;
 using Moto.Application.Abstractions;
 using Moto.Domain.Abstractions;
@@ -18,13 +20,15 @@ namespace Moto.Application.Services
         private readonly IBikeRepository _bikeRepository;
         private readonly IRentServices _rentServices;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IValidator<BikeEntity> _validator;
 
-        public BikeServices(IBikeRepository bikeRepository, IRentServices rentServices, IUnitOfWork uow, IPublishEndpoint publishEndpoint)
+        public BikeServices(IBikeRepository bikeRepository, IRentServices rentServices, IUnitOfWork uow, IPublishEndpoint publishEndpoint, IValidator<BikeEntity> validator)
         {
             _bikeRepository = bikeRepository;
             _rentServices = rentServices;
             _uow = uow;
             _publishEndpoint = publishEndpoint;
+            _validator = validator;
         }
 
         public async Task<BikeEntity> CreateAsync(CreateBikeRequest request)
@@ -35,6 +39,11 @@ namespace Moto.Application.Services
                 throw new BikeAlreadyRegisteredException("Já existe uma moto cadastrada para essa placa");
 
             BikeEntity newBike = new(request.Year, request.Plate, request.Model);
+
+            FluentValidation.Results.ValidationResult result = await _validator.ValidateAsync(newBike);
+
+            if (!result.IsValid)
+                throw new ValidationException(result.Errors);
 
             await _bikeRepository.AddAsync(newBike);
             await _uow.Commit();
@@ -79,6 +88,11 @@ namespace Moto.Application.Services
                 throw new BikeNotFoundException("Moto não encontrada");
 
             bike.UpdatePlate(plate);
+
+            FluentValidation.Results.ValidationResult result = await _validator.ValidateAsync(bike);
+
+            if (!result.IsValid)
+                throw new ValidationException(result.Errors);
 
             await _uow.Commit();
 

@@ -1,6 +1,8 @@
 ﻿using Asp.Versioning;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Moto.Api.Extensions;
 using Moto.Application.Abstractions;
 using Moto.Domain.Dtos.Request;
 using Moto.Domain.Dtos.Response;
@@ -41,6 +43,12 @@ namespace Moto.Api.Controllers
             catch (BikeAlreadyRegisteredException ex)
             {
                 return Conflict(ex.Message);
+            }
+            catch (ValidationException ex)
+            {
+                ex.AddToModelState(ModelState);
+
+                return BadRequest(ModelState);
             }
             catch (Exception ex)
             {
@@ -102,6 +110,12 @@ namespace Moto.Api.Controllers
             catch (BikeNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (ValidationException ex)
+            {
+                ex.AddToModelState(ModelState);
+
+                return BadRequest(ModelState);
             }
             catch (Exception ex)
             {

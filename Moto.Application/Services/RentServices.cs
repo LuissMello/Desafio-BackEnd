@@ -1,4 +1,6 @@
-﻿using Moto.Application.Abstractions;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using Moto.Application.Abstractions;
 using Moto.Domain.Abstractions;
 using Moto.Domain.Dtos.Request;
 using Moto.Domain.Dtos.Response;
@@ -15,13 +17,15 @@ namespace Moto.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IPlanRepository _planRepository;
         private readonly IUnitOfWork _uow;
+        private readonly IValidator<RentEntity> _validator;
 
-        public RentServices(IRentRepository rentRepository, IBikeRepository bikeRepository, IUserRepository userRepository, IUnitOfWork uow, IPlanRepository planRepository)
+        public RentServices(IRentRepository rentRepository, IBikeRepository bikeRepository, IUserRepository userRepository, IUnitOfWork uow, IPlanRepository planRepository, IValidator<RentEntity> validator)
         {
             _rentRepository = rentRepository;
             _bikeRepository = bikeRepository;
             _userRepository = userRepository;
             _planRepository = planRepository;
+            _validator = validator;
             _uow = uow;
         }
 
@@ -42,6 +46,11 @@ namespace Moto.Application.Services
                 throw new BikeAlreadyRentedException("A moto informada já possui locação");
 
             RentEntity newRent = new(user, bike, plan);
+
+            ValidationResult result = await _validator.ValidateAsync(newRent);
+
+            if (!result.IsValid)
+                throw new ValidationException(result.Errors);
 
             if (!newRent.CanRent())
                 throw new InvalidDocumentTypeException("Tipo de carteira incompativel");

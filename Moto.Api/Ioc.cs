@@ -1,12 +1,17 @@
-﻿using MassTransit;
+﻿using FluentValidation;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Moto.Application.Abstractions;
 using Moto.Application.Events;
 using Moto.Application.Services;
 using Moto.Domain.Abstractions;
+using Moto.Domain.Entities;
+using Moto.Domain.Validators;
+using Moto.Domain.Validators.Moto.Domain.Validators;
 using Moto.Infrastructure.Base;
 using Moto.Infrastructure.Context;
 using Moto.Infrastructure.Repositories;
+using System;
 
 namespace Moto.Api;
 
@@ -17,12 +22,13 @@ public static class Ioc
         AddServices(services);
         AddDatabase(services, configuration);
         AddRepositories(services);
-        AddeQueues(services, configuration);
+        AddQueues(services, configuration);
+        AddValidators(services);
         return services;
     }
 
 
-    static void AddeQueues(IServiceCollection services, IConfiguration configuration)
+    static void AddQueues(IServiceCollection services, IConfiguration configuration)
     {
         services.AddMassTransit(busConfigurator =>
         {
@@ -55,6 +61,14 @@ public static class Ioc
         services.AddScoped<IPlanRepository, PlanRepository>();
         services.AddScoped<IRentRepository, RentRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+    }
+
+    static void AddValidators(IServiceCollection services)
+    {
+        services.AddScoped<IValidator<UserEntity>, UserValidator>();
+        services.AddScoped<IValidator<BikeEntity>, BikeValidator>();
+        services.AddScoped<IValidator<PlanEntity>, PlanValidator>();
+        services.AddScoped<IValidator<RentEntity>, RentValidator>();
     }
 
     static void AddDatabase(IServiceCollection services, IConfiguration configuration)

@@ -1,6 +1,8 @@
 ﻿using Asp.Versioning;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Moto.Api.Extensions;
 using Moto.Application.Abstractions;
 using Moto.Domain.Dtos.Request;
 using Moto.Domain.Dtos.Response;
@@ -46,6 +48,12 @@ namespace Moto.Api.Controllers
             catch (InvalidDocumentTypeException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (ValidationException ex)
+            {
+                ex.AddToModelState(ModelState);
+
+                return BadRequest(ModelState);
             }
             catch (Exception ex)
             {
