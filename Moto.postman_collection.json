@@ -1,0 +1,653 @@
+{
+	"info": {
+		"_postman_id": "cb1beab2-1a40-4482-b154-b053d191a4cd",
+		"name": "Moto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14461469"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Admin\",\n  \"cnpj\": \"90.866.920/0001-22\",\n  \"birthDate\": \"1994-01-10T13:57:00.043Z\",\n  \"role\": 1,\n  \"password\": \"senha\",\n  \"cnh\": \"10517067922\",\n  \"cnhType\": 1\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/User/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"User",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU2OTk4NDgsImV4cCI6MTcxNTcxNzg0OCwiaWF0IjoxNzE1Njk5ODQ4fQ.vVCfBU8GQuoFI2DstmkNc58Mu1a_kFUqJM3JPOQGsw4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:57818/api/v1/User/list",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "57818",
+							"path": [
+								"api",
+								"v1",
+								"User",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bike",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"year\": 2020,\n  \"plate\": \"BGG-1234\",\n  \"model\": \"Yamaha\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/Bike/add",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Bike",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"plate\": \"NEP-6009\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/Bike/list/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Bike",
+								"list",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdatePlate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU3ODk4NjcsImV4cCI6MTcxNTgwNzg2NywiaWF0IjoxNzE1Nzg5ODY3fQ.r5YoDAoV8dMduonydAtKaVUQqqnDxccKNMZvLKsDQQI"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/v1/Bike/update/fcedc865-5af8-43e3-82ae-ee717ef7cf94/ABC-123",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Bike",
+								"update",
+								"fcedc865-5af8-43e3-82ae-ee717ef7cf94",
+								"ABC-123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU3ODk4NjcsImV4cCI6MTcxNTgwNzg2NywiaWF0IjoxNzE1Nzg5ODY3fQ.r5YoDAoV8dMduonydAtKaVUQqqnDxccKNMZvLKsDQQI",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/v1/Bike/delete/fcedc865-5af8-43e3-82ae-ee717ef7cf94",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Bike",
+								"delete",
+								"fcedc865-5af8-43e3-82ae-ee717ef7cf94"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Token",
+			"item": [
+				{
+					"name": "Generate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = JSON.parse(responseBody);\r",
+									"if(data.accessToken != '')\r",
+									"{\r",
+									"    pm.environment.set(\"token\", res.accessToken);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cnpj\": \"90.866.920/0001-22\",\n  \"password\": \"senha\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/Auth/token",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rent",
+			"item": [
+				{
+					"name": "Create Rent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU3ODk4NjcsImV4cCI6MTcxNTgwNzg2NywiaWF0IjoxNzE1Nzg5ODY3fQ.r5YoDAoV8dMduonydAtKaVUQqqnDxccKNMZvLKsDQQI",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"bikeId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"planId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/Rent/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Rent",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Finish Rent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"rentId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"date\": \"2024-05-15T16:43:13.160Z\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/Rent/finish",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Rent",
+								"finish"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Plan",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU3ODk4NjcsImV4cCI6MTcxNTgwNzg2NywiaWF0IjoxNzE1Nzg5ODY3fQ.r5YoDAoV8dMduonydAtKaVUQqqnDxccKNMZvLKsDQQI",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"days\": -7,\n  \"price\": 30,\n  \"fee\": 1.2\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/Plan/add",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Plan",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU3ODk4NjcsImV4cCI6MTcxNTgwNzg2NywiaWF0IjoxNzE1Nzg5ODY3fQ.r5YoDAoV8dMduonydAtKaVUQqqnDxccKNMZvLKsDQQI",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/v1/Plan/list",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Plan",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdatePlan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU3ODk4NjcsImV4cCI6MTcxNTgwNzg2NywiaWF0IjoxNzE1Nzg5ODY3fQ.r5YoDAoV8dMduonydAtKaVUQqqnDxccKNMZvLKsDQQI",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"planId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"days\": 40,\n  \"price\": 100,\n  \"fee\": 2\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/v1/Plan/update",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Plan",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU3ODk4NjcsImV4cCI6MTcxNTgwNzg2NywiaWF0IjoxNzE1Nzg5ODY3fQ.r5YoDAoV8dMduonydAtKaVUQqqnDxccKNMZvLKsDQQI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU3ODk4NjcsImV4cCI6MTcxNTgwNzg2NywiaWF0IjoxNzE1Nzg5ODY3fQ.r5YoDAoV8dMduonydAtKaVUQqqnDxccKNMZvLKsDQQI",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/v1/Plan/delete/3fa85f64-5717-4562-b3fc-2c963f66afa6",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"Plan",
+								"delete",
+								"3fa85f64-5717-4562-b3fc-2c963f66afa6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MTU3ODk4NjcsImV4cCI6MTcxNTgwNzg2NywiaWF0IjoxNzE1Nzg5ODY3fQ.r5YoDAoV8dMduonydAtKaVUQqqnDxccKNMZvLKsDQQI",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/v1/Plan/delete/3fa85f64-5717-4562-b3fc-2c963f66afa6",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"Plan",
+						"delete",
+						"3fa85f64-5717-4562-b3fc-2c963f66afa6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

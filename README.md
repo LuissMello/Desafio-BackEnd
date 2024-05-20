@@ -1,6 +1,20 @@
 # Desafio backend Mottu.
 Seja muito bem-vindo ao desafio backend da Mottu, obrigado pelo interesse em fazer parte do nosso time e ajudar a melhorar a vida de milhares de pessoas.
 
+# Tecnologias Utilizadas
+- .Net8
+- Docker
+- Logging -> Serilog + Seq
+- Mensageria -> RabbitMq + MassTransport
+- Banco -> PostgreSQL + Entity Framework Core
+- Validação -> Fluent Validation
+
+# Observações:
+
+- Criei uma collection e ambiente no postman para facilitar os testes. Ambos estão na pasta do projeto
+- Deixei dois usuários pré setados (Admin - Cnpj: "85.017.314/0001-50", Senha: "admin" e Motoboy - Cnpj: "33.029.871/0001-97", Senha: "motoboy") apenas para facilitar. Mas se preferir, pode criar novos.
+- As unicas coisas que ficaram de fora foi o upload de arquivo e testes de integração por motivos de tempo.
+
 ## Instruções
 - O desafio é válido para diversos níveis, portanto não se preocupe se não conseguir resolver por completo.
 - A aplicação só será avaliada se estiver rodando, se necessário crie um passo a passo para isso.
@@ -64,12 +78,4 @@ Seu objetivo é criar uma aplicação para gerenciar aluguel de motos e entregad
 - Código limpo e organizado
 - Logs bem estruturados
 - Seguir convenções utilizadas pela comunidade
-
-# Tecnologias Utilizadas
-- .Net8
-- Docker
-- Logging -> Serilog + Seq
-- Mensageria -> RabbitMq + MassTransport
--  Banco -> PostgreSQL + Entity Framework Core
-  
 
