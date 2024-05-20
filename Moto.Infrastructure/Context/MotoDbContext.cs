@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Moto.Domain.Entities;
 using Moto.Domain.Enums;
+using System.Threading;
 
 namespace Moto.Infrastructure.Context;
 
@@ -18,11 +19,12 @@ public class MotoDbContext : DbContext
 
     public DbSet<PlanEntity> Plans { get; set; }
 
-    public override int SaveChanges()
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var entries = ChangeTracker
-                        .Entries()
-                        .Where(e => e.Entity is BaseEntity && (e.State == EntityState.Added || e.State == EntityState.Modified));
+                     .Entries()
+                     .Where(e => e.Entity is BaseEntity && (e.State == EntityState.Added || e.State == EntityState.Modified));
 
         foreach (var entityEntry in entries)
         {
@@ -34,7 +36,7 @@ public class MotoDbContext : DbContext
             }
         }
 
-        return base.SaveChanges();
+        return base.SaveChangesAsync(cancellationToken);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
