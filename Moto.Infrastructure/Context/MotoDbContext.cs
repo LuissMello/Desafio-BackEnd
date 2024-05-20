@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Moto.Domain.Entities;
+using Moto.Domain.Enums;
 
 namespace Moto.Infrastructure.Context;
 
@@ -180,7 +181,12 @@ public class MotoDbContext : DbContext
           new PlanEntity(15, 28, 1.4M),
           new PlanEntity(30, 22, 1M),
           new PlanEntity(45, 20, 1M),
-          new PlanEntity(50, 18, 12M)
+          new PlanEntity(50, 18, 1M)
+        );
+
+        modelBuilder.Entity<UserEntity>().HasData(
+          new UserEntity("Administrador", "85.017.314/0001-50", DateTime.Parse("01/10/1994"), "68690498097", CnhType.A, Role.Admin, "admin"),
+          new UserEntity("Motoboy", "33.029.871/0001-97", DateTime.Parse("01/10/1994"), "68690498097", CnhType.A, Role.User, "motoboy")
         );
     }
 }

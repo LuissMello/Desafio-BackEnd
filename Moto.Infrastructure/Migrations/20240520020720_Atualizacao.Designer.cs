@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Moto.Infrastructure.Context;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Moto.Infrastructure.Migrations
 {
     [DbContext(typeof(MotoDbContext))]
-    partial class MotoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240520020720_Atualizacao")]
+    partial class Atualizacao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,7 +96,7 @@ namespace Moto.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("80a8ccbd-c021-4c85-85d9-0f006909e28f"),
+                            Id = new Guid("eea05ec5-0da0-4ebd-ba02-bd68fb9c6d6e"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Days = 7,
                             Fee = 1.2m,
@@ -102,7 +105,7 @@ namespace Moto.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9cb46d4e-ff50-46ed-8bf8-c4ea3341c03f"),
+                            Id = new Guid("c7c28740-8c15-430b-ba16-39f8147930e3"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Days = 15,
                             Fee = 1.4m,
@@ -111,7 +114,7 @@ namespace Moto.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2586b77c-3329-49cc-a31e-8cd19ad83f49"),
+                            Id = new Guid("e9067552-6ff2-4854-a8de-4dd42f38f228"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Days = 30,
                             Fee = 1m,
@@ -120,7 +123,7 @@ namespace Moto.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2f5d4fa5-c195-4aad-bb4a-0c1bb7115ec3"),
+                            Id = new Guid("38856ca5-0424-46eb-be99-07583da5bf86"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Days = 45,
                             Fee = 1m,
@@ -129,7 +132,7 @@ namespace Moto.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("86fb1746-1165-4fc5-a101-0e8768b50fe2"),
+                            Id = new Guid("ec97a8fc-799e-455a-9a3e-24e599d33b07"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Days = 50,
                             Fee = 1m,
@@ -241,34 +244,6 @@ namespace Moto.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Users", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("57fa9e3d-eb33-4f4a-9218-d29a87de96c2"),
-                            BirthDate = new DateTime(1994, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Cnh = "68690498097",
-                            CnhType = 1,
-                            Cnpj = "85.017.314/0001-50",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Administrador",
-                            Password = "admin",
-                            Role = 1,
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("06ad9df4-3ba2-4ef3-8923-a209c1d8d047"),
-                            BirthDate = new DateTime(1994, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Cnh = "68690498097",
-                            CnhType = 1,
-                            Cnpj = "33.029.871/0001-97",
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Motoboy",
-                            Password = "motoboy",
-                            Role = 0,
-                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("Moto.Domain.Entities.RentEntity", b =>
