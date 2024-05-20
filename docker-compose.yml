@@ -20,6 +20,17 @@ services:
     ports:
      - 5432:5432
  
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: moto.pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "16543:80"
+    depends_on:
+      - moto.database 
+ 
   moto.rabbitmq:
     image: 'rabbitmq:3.6-management-alpine'
     container_name: moto.rabbitmq
