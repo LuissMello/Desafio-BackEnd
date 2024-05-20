@@ -1,6 +1,7 @@
 ﻿using Moto.Application.Abstractions;
 using Moto.Domain.Abstractions;
 using Moto.Domain.Dtos.Request;
+using Moto.Domain.Dtos.Response;
 using Moto.Domain.Entities;
 using Moto.Domain.Exceptions;
 using Moto.Infrastructure.Base;
@@ -19,7 +20,7 @@ namespace Moto.Application.Services
             _uow = uow;
         }
 
-        public async Task CreateAsync(CreatePlanRequest request)
+        public async Task<PlanEntity> CreateAsync(CreatePlanRequest request)
         {
             PlanEntity? plan = await _planRepository.GetByDaysAsync(request.Days);
 
@@ -30,6 +31,8 @@ namespace Moto.Application.Services
 
             await _planRepository.AddAsync(newPlan);
             await _uow.Commit();
+
+            return newPlan;
         }
 
         public async Task Delete(Guid planId)
@@ -44,7 +47,7 @@ namespace Moto.Application.Services
         public async Task<List<PlanEntity>> ListAllAsync()
             => await _planRepository.GetAllAsync();
 
-        public async Task UpdateAsync(Guid planId, UpdatePlanRequest request)
+        public async Task<PlanEntity> UpdateAsync(Guid planId, UpdatePlanRequest request)
         {
             PlanEntity plan = await _planRepository.GetByIdAsync(planId) ??
                 throw new PlanNotFoundException("Esse plano não existe");
@@ -57,6 +60,8 @@ namespace Moto.Application.Services
             plan.Update(request.Days, request.Price, request.Fee);
 
             await _uow.Commit();
+
+            return plan;
         }
     }
 }

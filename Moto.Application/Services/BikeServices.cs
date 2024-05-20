@@ -27,7 +27,7 @@ namespace Moto.Application.Services
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task CreateAsync(CreateBikeRequest request)
+        public async Task<BikeEntity> CreateAsync(CreateBikeRequest request)
         {
             BikeEntity? bike = await _bikeRepository.GetByPlateAsync(request.Plate);
 
@@ -42,6 +42,8 @@ namespace Moto.Application.Services
             BikeCreatedEvent bikeEvent = new(newBike.Id, newBike.Year, newBike.Plate, newBike.Model);
 
             await _publishEndpoint.Publish(bikeEvent);
+
+            return newBike;
         }
 
         public async Task DeleteAsync(Guid bikeId)
@@ -71,7 +73,7 @@ namespace Moto.Application.Services
             return bikes;
         }
 
-        public async Task UpdateAsync(Guid id, string plate)
+        public async Task<BikeEntity> UpdateAsync(Guid id, string plate)
         {
             var bike = await _bikeRepository.GetByIdAsync(id) ??
                 throw new BikeNotFoundException("Moto não encontrada");
@@ -79,6 +81,8 @@ namespace Moto.Application.Services
             bike.UpdatePlate(plate);
 
             await _uow.Commit();
+
+            return bike;
         }
     }
 }

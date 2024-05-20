@@ -55,7 +55,7 @@ namespace Moto.Infrastructure.Migrations
                 columns: new[] { "user_id", "user_birth_date", "user_cnh", "user_cnh_type", "user_cnpj", "user_created_date", "user_name", "user_password", "Role", "user_updated_date" },
                 values: new object[,]
                 {
-                    { new Guid("06ad9df4-3ba2-4ef3-8923-a209c1d8d047"), new DateTime(1994, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "68690498097", 1, "33.029.871/0001-97", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Motoboy", "motoboy", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { new Guid("06ad9df4-3ba2-4ef3-8923-a209c1d8d047"), new DateTime(1994, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "16604016578", 1, "33.029.871/0001-97", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Motoboy", "motoboy", 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
                     { new Guid("57fa9e3d-eb33-4f4a-9218-d29a87de96c2"), new DateTime(1994, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "68690498097", 1, "85.017.314/0001-50", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Administrador", "admin", 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
         }

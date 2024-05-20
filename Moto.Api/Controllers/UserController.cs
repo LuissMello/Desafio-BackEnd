@@ -32,8 +32,9 @@ namespace Moto.Api.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
         {
             _logger.LogInformation("Iniciando cadastro de usuario");
+            
+            UserEntity? registeredUser;
 
-            UserEntity? registeredUser = new();
             try
             {
                 registeredUser = await _userServices.ResisterAsync(request);
@@ -55,9 +56,10 @@ namespace Moto.Api.Controllers
 
             _logger.LogInformation("Usuário cadastrado com sucesso");
 
-            return Ok(new { User = response });
+            return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{userId}")]
         [ProducesResponseType(typeof(UserEntity), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -75,6 +77,7 @@ namespace Moto.Api.Controllers
             return Ok(new { User = response });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("list")]
         [ProducesResponseType(typeof(List<UserEntity>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllUsers()

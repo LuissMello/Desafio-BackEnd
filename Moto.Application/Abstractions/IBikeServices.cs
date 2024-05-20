@@ -5,9 +5,9 @@ namespace Moto.Application.Abstractions
 {
     public interface IBikeServices
     {
-        public Task CreateAsync(CreateBikeRequest request);
+        public Task<BikeEntity> CreateAsync(CreateBikeRequest request);
         public Task DeleteAsync(Guid bikeId);
         public Task<List<BikeEntity>> ListAsync(string plate);
-        public Task UpdateAsync(Guid bikeId, string plate);
+        public Task<BikeEntity> UpdateAsync(Guid bikeId, string plate);
     }
 }

@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Moto.Application.Abstractions;
+using Moto.Domain.Dtos;
 using Moto.Domain.Dtos.Request;
 using Moto.Domain.Dtos.Response;
+using Moto.Domain.Entities;
 using Moto.Domain.Exceptions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,16 +27,19 @@ namespace Moto.Api.Controllers
             _logger = logger;
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("create")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType((typeof(CreateRentRepsonse)),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateRentRequest request)
         {
             _logger.LogInformation("Iniciando cadastro de locação");
 
+            RentEntity rentEntity;
+
             try
             {
-                await _rentServices.CreateAsync(request);
+                rentEntity = await _rentServices.CreateAsync(request);
             }
             catch (Exception ex) when (ex is BikeNotFoundException or UserNotFoundException or PlanNotFoundException)
             {
@@ -54,14 +59,20 @@ namespace Moto.Api.Controllers
                 return BadRequest(ex.Message);
             }
 
+            CreateRentRepsonse response = new(rentEntity.Id,
+                                            new UserDto(rentEntity.User.Id, rentEntity.User.Name, rentEntity.User.Cnpj),
+                                            new BikeDto(rentEntity.Bike.Id, rentEntity.Bike.Year, rentEntity.Bike.Plate, rentEntity.Bike.Model),
+                                            new PlanDto(rentEntity.Plan.Id, rentEntity.Plan.Days, rentEntity.Plan.Fee, rentEntity.Plan.Price));
+
+
             _logger.LogInformation("Locação cadastrada com sucesso");
 
-            return Created();
+            return Ok(response);
         }
 
-
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("finish")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(FinishRentResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Finish([FromBody] FinishRentRequest request)
         {

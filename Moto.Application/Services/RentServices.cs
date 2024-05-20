@@ -25,7 +25,7 @@ namespace Moto.Application.Services
             _uow = uow;
         }
 
-        public async Task CreateAsync(CreateRentRequest request)
+        public async Task<RentEntity> CreateAsync(CreateRentRequest request)
         {
             BikeEntity bike = await _bikeRepository.GetByIdAsync(request.BikeId)
                 ?? throw new BikeNotFoundException("A moto informada não foi encontrada");
@@ -48,6 +48,8 @@ namespace Moto.Application.Services
 
             await _rentRepository.AddAsync(newRent);
             await _uow.Commit();
+
+            return newRent;
         }
 
         public async Task<FinishRentResponse> FinishAsync(FinishRentRequest request)

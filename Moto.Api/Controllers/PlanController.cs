@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Moto.Application.Abstractions;
+using Moto.Application.Services;
 using Moto.Domain.Dtos.Request;
+using Moto.Domain.Dtos.Response;
 using Moto.Domain.Entities;
 using Moto.Domain.Exceptions;
 
@@ -28,15 +30,18 @@ namespace Moto.Api.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost("add")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType((typeof(CreatePlanResponse)), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreatePlanRequest request)
         {
             _logger.LogInformation("Iniciando cadastro de plano");
+
+            PlanEntity planEntity;
+
             try
             {
-                await _planServices.CreateAsync(request);
+                planEntity = await _planServices.CreateAsync(request);
             }
             catch (PlanAlreadyRegisteredException ex)
             {
@@ -48,9 +53,11 @@ namespace Moto.Api.Controllers
                 return BadRequest(ex.Message);
             }
 
+            CreatePlanResponse response = new(planEntity.Id, planEntity.Days, planEntity.Price, planEntity.Fee);
+
             _logger.LogInformation("Plano cadastrado com sucesso");
 
-            return Created();
+            return Ok(response);
         }
 
         [Authorize(Roles = "Admin")]
@@ -62,9 +69,11 @@ namespace Moto.Api.Controllers
         {
             _logger.LogInformation("Iniciando atualização de plano");
 
+            PlanEntity planEntity;
+
             try
             {
-                await _planServices.UpdateAsync(request.planId, request);
+                planEntity = await _planServices.UpdateAsync(request.planId, request);
             }
             catch (PlanNotFoundException ex)
             {
@@ -80,9 +89,11 @@ namespace Moto.Api.Controllers
                 return BadRequest(ex.Message);
             }
 
+            UpdatePlanResponse response = new(planEntity.Id, planEntity.Days, planEntity.Price, planEntity.Fee);
+
             _logger.LogInformation("Plano atualizado com sucesso");
 
-            return Ok();
+            return Ok(response);
         }
 
         [Authorize(Roles = "Admin")]
@@ -120,9 +131,26 @@ namespace Moto.Api.Controllers
         {
             _logger.LogInformation("Iniciando listagem de planos");
 
-            var plans = await _planServices.ListAllAsync();
+            List<PlanEntity> plans;
 
-            return Ok(plans);
+            try
+            {
+                plans = await _planServices.ListAllAsync();
+
+            }
+            catch (BikeNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+
+            ListPlansResponse response = new(plans);
+
+            return Ok(response);
         }
     }
 }

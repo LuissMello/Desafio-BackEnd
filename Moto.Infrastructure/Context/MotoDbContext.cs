@@ -73,8 +73,6 @@ public class MotoDbContext : DbContext
             e.Property(x => x.Password)
                 .HasColumnName("user_password");
 
-            e.Ignore(x => x.CnhImage);
-
             e.HasIndex(x => x.Cnpj)
                 .IsUnique();
 
@@ -185,8 +183,8 @@ public class MotoDbContext : DbContext
         );
 
         modelBuilder.Entity<UserEntity>().HasData(
-          new UserEntity("Administrador", "85.017.314/0001-50", DateTime.Parse("01/10/1994"), "68690498097", CnhType.A, Role.Admin, "admin"),
-          new UserEntity("Motoboy", "33.029.871/0001-97", DateTime.Parse("01/10/1994"), "68690498097", CnhType.A, Role.User, "motoboy")
+          new UserEntity("Administrador", "85.017.314/0001-50", new DateTime(1994, 10, 1, 0, 0, 0, 0, DateTimeKind.Utc), "68690498097", CnhType.A, Role.Admin, "admin"),
+          new UserEntity("Motoboy", "33.029.871/0001-97", new DateTime(1994, 10, 1, 0, 0, 0, 0, DateTimeKind.Utc), "16604016578", CnhType.A, Role.User, "motoboy")
         );
     }
 }

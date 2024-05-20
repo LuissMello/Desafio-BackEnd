@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Moto.Application.Abstractions;
 using Moto.Domain.Dtos.Request;
+using Moto.Domain.Dtos.Response;
 using Moto.Domain.Entities;
 using Moto.Domain.Exceptions;
 
@@ -24,16 +25,18 @@ namespace Moto.Api.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost("add")]
-        [ProducesResponseType(typeof(BikeEntity), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(CreateBikeResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateBikeRequest request)
         {
             _logger.LogInformation("Iniciando criação de moto");
 
+            BikeEntity? bike;
+
             try
             {
-                await _bikeServices.CreateAsync(request);
+                bike = await _bikeServices.CreateAsync(request);
             }
             catch (BikeAlreadyRegisteredException ex)
             {
@@ -45,24 +48,26 @@ namespace Moto.Api.Controllers
                 return BadRequest(ex.Message);
             }
 
+            CreateBikeResponse response = new(bike.Id, bike.Year, bike.Plate, bike.Model);
+
             _logger.LogInformation("Moto criada com sucesso");
 
-            return Created();
+            return Ok(response);
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("list/{plate}")]
-        [ProducesResponseType(typeof(List<BikeEntity>), StatusCodes.Status200OK)]
+        [HttpGet("list")]
+        [ProducesResponseType(typeof(ListBikesResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> List(string plate = "")
+        public async Task<IActionResult> List([FromBody] ListBikesRequest request)
         {
             _logger.LogInformation("Iniciando listagem de motos");
-            List<BikeEntity> bikes = [];
 
+            List<BikeEntity> bikes;
             try
             {
-                bikes = await _bikeServices.ListAsync(plate);
+                bikes = await _bikeServices.ListAsync(request.Plate);
 
             }
             catch (BikeNotFoundException ex)
@@ -75,20 +80,24 @@ namespace Moto.Api.Controllers
                 return BadRequest(ex.Message);
             }
 
-            return Ok(bikes);
+            ListBikesResponse response = new(bikes);
+
+            return Ok(response);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPatch("update/{bikeId}/{plate}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UpdateBikeResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(Guid bikeId, string plate)
         {
             _logger.LogInformation("Iniciando atualização de moto");
+
+            BikeEntity? bikeEntity;
             try
             {
-                await _bikeServices.UpdateAsync(bikeId, plate);
+                bikeEntity = await _bikeServices.UpdateAsync(bikeId, plate);
             }
             catch (BikeNotFoundException ex)
             {
@@ -100,9 +109,11 @@ namespace Moto.Api.Controllers
                 return BadRequest(ex.Message);
             }
 
+            UpdateBikeResponse response = new(bikeEntity.Id, bikeEntity.Year, bikeEntity.Plate, bikeEntity.Model);
+
             _logger.LogInformation("Atualização finalizada com sucesso");
 
-            return Ok();
+            return Ok(response);
         }
 
         [Authorize(Roles = "Admin")]

@@ -61,5 +61,7 @@ public static class Ioc
     {
         services.AddDbContext<MotoDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("Database")), ServiceLifetime.Scoped);
+
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 }

@@ -260,7 +260,7 @@ namespace Moto.Infrastructure.Migrations
                         {
                             Id = new Guid("06ad9df4-3ba2-4ef3-8923-a209c1d8d047"),
                             BirthDate = new DateTime(1994, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Cnh = "68690498097",
+                            Cnh = "16604016578",
                             CnhType = 1,
                             Cnpj = "33.029.871/0001-97",
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
